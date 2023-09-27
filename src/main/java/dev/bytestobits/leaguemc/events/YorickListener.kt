@@ -93,6 +93,7 @@ class YorickListener(private val plugin: LeagueMC): Listener {
             Bukkit.getScheduler().runTaskLater(plugin, Runnable {
                 it.remove()
                 ghouls[owner]?.remove(it)
+                targets.remove(it)
             }, 1200L)
         }
         vex.target = owner

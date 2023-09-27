@@ -1,5 +1,6 @@
 package dev.bytestobits.leaguemc.commands
 
+import dev.bytestobits.leaguemc.Kits.Annie
 import dev.bytestobits.leaguemc.Kits.Yorick
 import dev.bytestobits.leaguemc.Messages
 import org.bukkit.command.Command
@@ -18,6 +19,7 @@ class LeagueKit: CommandExecutor {
 
                 when (val kit = args.first()) {
                     "yorick" -> Yorick.kit(sender)
+                    "annie" -> Annie.kit(sender)
                     else -> {
                         sender.sendMessage(Messages.color("&cKit &e$kit &cnot found."))
                     }
