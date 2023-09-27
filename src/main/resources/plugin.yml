@@ -1,0 +1,9 @@
+name: LeagueMC
+version: '${project.version}'
+main: dev.bytestobits.leaguemc.LeagueMC
+api-version: 1.20
+commands:
+  leaguekit:
+    usage: /<command> [kit]
+    permission: leaguemc.kit
+    permission-message: §c§l(!) You do not have access to this command.
