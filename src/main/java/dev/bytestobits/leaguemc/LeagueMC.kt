@@ -1,10 +1,7 @@
 package dev.bytestobits.leaguemc
 
 import dev.bytestobits.leaguemc.commands.LeagueKit
-import dev.bytestobits.leaguemc.events.AkshanListener
-import dev.bytestobits.leaguemc.events.AnnieListener
-import dev.bytestobits.leaguemc.events.NeekoListener
-import dev.bytestobits.leaguemc.events.YorickListener
+import dev.bytestobits.leaguemc.events.*
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -16,6 +13,7 @@ class LeagueMC : JavaPlugin() {
         Bukkit.getPluginManager().registerEvents(AnnieListener(this), this)
         Bukkit.getPluginManager().registerEvents(NeekoListener(), this)
         Bukkit.getPluginManager().registerEvents(AkshanListener(this), this)
+        Bukkit.getPluginManager().registerEvents(GangplankListener(), this)
     }
 
     override fun onDisable() {
