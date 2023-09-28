@@ -10,17 +10,25 @@ import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerMoveEvent
-import org.bukkit.scheduler.BukkitRunnable
+import org.bukkit.event.player.PlayerQuitEvent
 
 class AkshanListener(private val plugin: LeagueMC): Listener {
     private val invisiblePlayers = mutableListOf<Player>()
 
     @EventHandler
-    fun playerJoin(event: PlayerJoinEvent) {
-        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "dynmap show ${event.player.name}")
+    fun playerLeave(event: PlayerQuitEvent) {
+        invisiblePlayers.remove(event.player)
+        revealPlayer(event.player)
+    }
+
+    @EventHandler
+    fun playerDeath(event: PlayerDeathEvent) {
+        invisiblePlayers.remove(event.player)
+        revealPlayer(event.player)
     }
 
     @EventHandler
@@ -48,12 +56,14 @@ class AkshanListener(private val plugin: LeagueMC): Listener {
                 hidePlayer(player)
                 player.sendMessage(Messages.color("&7You are now &ehidden &7from all players that are not close to you."))
                 player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f)
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "dynmap hide ${event.player.name}")
             }
         }
     }
 
     private fun revealPlayer(player: Player) {
         Bukkit.getServer().onlinePlayers.forEach { it.showPlayer(plugin, player) }
+        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "dynmap show ${player.name}")
     }
 
     private fun hidePlayer(player: Player) {
