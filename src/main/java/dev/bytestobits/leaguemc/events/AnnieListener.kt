@@ -3,6 +3,7 @@ package dev.bytestobits.leaguemc.events
 import dev.bytestobits.leaguemc.Kits.Annie
 import dev.bytestobits.leaguemc.LeagueMC
 import dev.bytestobits.leaguemc.Messages
+import dev.bytestobits.leaguemc.Util
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -17,6 +18,9 @@ import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.scheduler.BukkitRunnable
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.sqrt
 
 class AnnieListener(private val plugin: LeagueMC): Listener {
     val tibbers = mutableMapOf<Player, PolarBear>()
@@ -119,6 +123,11 @@ class AnnieListener(private val plugin: LeagueMC): Listener {
                                     targets.remove(bear)
                                 }
                             } else {
+                                val distance = Util.calculateDistance(bear.location, player.location)
+                                if(distance >= 20) {
+                                    bear.teleport(player.location)
+                                }
+
                                 bear.pathfinder.moveTo(player)
                             }
                         } else {

@@ -3,6 +3,7 @@ package dev.bytestobits.leaguemc.events
 import dev.bytestobits.leaguemc.Kits.Yorick
 import dev.bytestobits.leaguemc.LeagueMC
 import dev.bytestobits.leaguemc.Messages
+import dev.bytestobits.leaguemc.Util
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -120,6 +121,11 @@ class YorickListener(private val plugin: LeagueMC): Listener {
                     if(targets.contains(vex)) {
                         vex.target = targets[vex]
                     } else {
+                        val distance = Util.calculateDistance(vex.location, owner.location)
+                        if(distance >= 20) {
+                            vex.teleport(owner.location)
+                        }
+
                         vex.pathfinder.moveTo(owner)
                     }
                 } else {
