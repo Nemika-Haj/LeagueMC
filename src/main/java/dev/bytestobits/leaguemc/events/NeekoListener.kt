@@ -15,7 +15,7 @@ class NeekoListener: Listener {
         val item = player.inventory.itemInMainHand
 
         if(item.hasItemMeta() && item.itemMeta.hasCustomModelData() && item.itemMeta.customModelData == Neeko.uniqueId && item.type == Material.SLIME_BALL) {
-             player.location.getNearbyPlayers(10.0).forEach { if(it != player) it.velocity = Vector(0.0, 2.0, 0.0) }
+             player.location.getNearbyEntities(10.0, 10.0, 10.0).forEach { if(it != player) it.velocity = Vector(0.0, 2.0, 0.0) }
         }
     }
 

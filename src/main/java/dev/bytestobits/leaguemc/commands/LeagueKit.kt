@@ -1,5 +1,6 @@
 package dev.bytestobits.leaguemc.commands
 
+import dev.bytestobits.leaguemc.Kits.Akshan
 import dev.bytestobits.leaguemc.Kits.Annie
 import dev.bytestobits.leaguemc.Kits.Neeko
 import dev.bytestobits.leaguemc.Kits.Yorick
@@ -22,6 +23,7 @@ class LeagueKit: CommandExecutor {
                     "yorick" -> Yorick.kit(sender)
                     "annie" -> Annie.kit(sender)
                     "neeko" -> Neeko.kit(sender)
+                    "akshan" -> Akshan.kit(sender)
                     else -> {
                         sender.sendMessage(Messages.color("&cKit &e$kit &cnot found."))
                     }
