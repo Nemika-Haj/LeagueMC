@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 
 object Annie {
@@ -19,6 +20,7 @@ object Annie {
         ))
         meta.addEnchant(Enchantment.LUCK, 1, false)
         meta.setCustomModelData(uniqueId)
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
 
         rItem.itemMeta = meta
 

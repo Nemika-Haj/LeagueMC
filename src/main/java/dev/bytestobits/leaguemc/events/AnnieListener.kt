@@ -15,21 +15,31 @@ import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.scheduler.BukkitRunnable
 
 class AnnieListener(private val plugin: LeagueMC): Listener {
     val tibbers = mutableMapOf<Player, PolarBear>()
     val targets = mutableMapOf<PolarBear, LivingEntity>()
 
+    private fun clearTibbers(owner: Player) {
+        tibbers[owner]?.let {
+            if(it.isValid) {
+                it.remove()
+            }
+            targets.remove(it)
+            tibbers.remove(owner)
+        }
+    }
+
     @EventHandler
     fun playerDeath(event: PlayerDeathEvent) {
-        val player = event.player
-        if(player in tibbers.keys) {
-            val bear = tibbers[player]
-            bear?.remove()
-            tibbers.remove(player)
-            targets.remove(bear)
-        }
+        clearTibbers(event.player)
+    }
+
+    @EventHandler
+    fun playerLeave(event: PlayerQuitEvent) {
+        clearTibbers(event.player)
     }
 
     @EventHandler
@@ -109,7 +119,7 @@ class AnnieListener(private val plugin: LeagueMC): Listener {
                                     targets.remove(bear)
                                 }
                             } else {
-                                bear.target = player
+                                bear.pathfinder.moveTo(player)
                             }
                         } else {
                             this.cancel()
@@ -118,11 +128,7 @@ class AnnieListener(private val plugin: LeagueMC): Listener {
                 }.runTaskTimer(plugin, 0L, 20L)
 
                 Bukkit.getScheduler().runTaskLater(plugin, Runnable {
-                    bear.let {
-                        it.remove()
-                        tibbers.remove(player)
-                        targets.remove(it)
-                    }
+                    clearTibbers(player)
                 }, 6000)
             }
         }

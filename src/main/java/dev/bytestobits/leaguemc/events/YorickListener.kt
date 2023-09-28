@@ -12,12 +12,28 @@ import org.bukkit.entity.Vex
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.scheduler.BukkitRunnable
 import kotlin.math.min
 
 class YorickListener(private val plugin: LeagueMC): Listener {
     private val ghouls = mutableMapOf<Player, MutableList<Vex>>()
     private val targets = mutableMapOf<Vex, LivingEntity>()
+
+    private fun clearGhouls(owner: Player) {
+        ghouls[owner]?.let { ghoul ->
+            ghoul.forEach {
+                targets.remove(it)
+                if(it.isValid) it.remove()
+            }
+            ghouls.remove(owner)
+        }
+    }
+
+    @EventHandler
+    fun playerLeave(event: PlayerQuitEvent) {
+        clearGhouls(event.player)
+    }
 
     @EventHandler
     fun hitEvent(event: EntityDamageByEntityEvent) {
@@ -104,7 +120,7 @@ class YorickListener(private val plugin: LeagueMC): Listener {
                     if(targets.contains(vex)) {
                         vex.target = targets[vex]
                     } else {
-                        vex.target = owner
+                        vex.pathfinder.moveTo(owner)
                     }
                 } else {
                     this.cancel()

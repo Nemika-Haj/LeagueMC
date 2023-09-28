@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 
 object Yorick {
@@ -20,6 +21,7 @@ object Yorick {
         ))
         meta.addEnchant(Enchantment.LUCK, 1, true)
         meta.setCustomModelData(uniqueId)
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
 
         qShovel.itemMeta = meta
 //        items.add(qShovel)
