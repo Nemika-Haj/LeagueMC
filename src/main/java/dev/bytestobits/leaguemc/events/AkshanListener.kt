@@ -15,6 +15,7 @@ import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.event.player.PlayerQuitEvent
+import org.bukkit.scheduler.BukkitRunnable
 
 class AkshanListener(private val plugin: LeagueMC): Listener {
     private val invisiblePlayers = mutableListOf<Player>()
@@ -32,20 +33,12 @@ class AkshanListener(private val plugin: LeagueMC): Listener {
     }
 
     @EventHandler
-    fun playerMove(event: PlayerMoveEvent) {
-        val player = event.player
-
-        if(player in invisiblePlayers) {
-            hidePlayer(player)
-        }
-    }
-
-    @EventHandler
     fun playerInteract(event: PlayerInteractEvent) {
         val player = event.player
         val item = player.inventory.itemInMainHand
 
         if(item.hasItemMeta() && item.itemMeta.hasCustomModelData() && item.itemMeta.customModelData == Akshan.uniqueId && item.type == Material.NETHER_STAR) {
+            event.isCancelled = true
             if(invisiblePlayers.contains(player)) {
                 invisiblePlayers.remove(player)
                 player.sendMessage(Messages.color("&7You have &erevealed &7yourself."))
@@ -67,12 +60,20 @@ class AkshanListener(private val plugin: LeagueMC): Listener {
     }
 
     private fun hidePlayer(player: Player) {
-        Bukkit.getServer().onlinePlayers.forEach {
-            if(Util.calculateDistance(player.location, it.location) <= 5) {
-                it.showPlayer(plugin, player)
-            } else {
-                it.hidePlayer(plugin, player)
+        object : BukkitRunnable() {
+            override fun run() {
+                if(player !in invisiblePlayers) {
+                    this.cancel()
+                }
+
+                Bukkit.getServer().onlinePlayers.forEach {
+                    if(Util.calculateDistance(player.location, it.location) <= 5) {
+                        it.showPlayer(plugin, player)
+                    } else {
+                        it.hidePlayer(plugin, player)
+                    }
+                }
             }
-        }
+        }.runTaskTimer(plugin, 0L, 5L)
     }
 }
