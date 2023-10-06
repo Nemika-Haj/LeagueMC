@@ -72,7 +72,7 @@ class YorickListener(private val plugin: LeagueMC): Listener {
             if(item.itemMeta == null || !item.itemMeta.hasCustomModelData()) return
 
             // Hit by Q
-            if(item.itemMeta.customModelData == Yorick.uniqueId) {
+            if(item.itemMeta.customModelData == Yorick.UNIQUE_ID) {
                 if(item.type == Material.DIAMOND_SHOVEL) {
                     attacker.health = min(attacker.health + 0.75, 20.0)
                     event.damage = event.damage * 1.25

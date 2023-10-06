@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 
 object Annie {
-    const val uniqueId = 2000
+    const val UNIQUE_ID = 2000
 
     fun kit(player: Player) {
         val rItem = ItemStack(Material.MAGMA_CREAM)
@@ -19,7 +19,7 @@ object Annie {
             Component.text(Messages.color("&7Annie summons Tibbers to the target location."))
         ))
         meta.addEnchant(Enchantment.LUCK, 1, false)
-        meta.setCustomModelData(uniqueId)
+        meta.setCustomModelData(UNIQUE_ID)
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
 
         rItem.itemMeta = meta

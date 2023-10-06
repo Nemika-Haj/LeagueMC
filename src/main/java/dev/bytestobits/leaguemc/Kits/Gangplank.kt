@@ -9,10 +9,10 @@ import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 
 object Gangplank {
-    const val uniqueId = 5000
+    const val UNIQUE_ID = 5000
 
     fun kit(player: Player) {
-        val wOrange = ItemStack(Material.GLOW_BERRIES)
+        val wOrange = ItemStack(Material.APPLE)
         val meta = wOrange.itemMeta
         meta.displayName(Component.text(Messages.color("&6&l[W] Remove Scurvy")))
         meta.lore(mutableListOf(
@@ -20,7 +20,7 @@ object Gangplank {
         ))
         meta.addEnchant(Enchantment.LUCK, 1, true)
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
-        meta.setCustomModelData(uniqueId)
+        meta.setCustomModelData(UNIQUE_ID)
 
         wOrange.itemMeta = meta
 

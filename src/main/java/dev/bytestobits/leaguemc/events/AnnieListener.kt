@@ -18,9 +18,6 @@ import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.scheduler.BukkitRunnable
-import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.sqrt
 
 class AnnieListener(private val plugin: LeagueMC): Listener {
     val tibbers = mutableMapOf<Player, PolarBear>()
@@ -94,52 +91,50 @@ class AnnieListener(private val plugin: LeagueMC): Listener {
         val player = event.player
         val item = player.inventory.itemInMainHand
 
-        if(item.itemMeta != null && item.itemMeta.hasCustomModelData()) {
-            if(item.itemMeta.customModelData == Annie.uniqueId && item.type == Material.MAGMA_CREAM) {
-                if(player in tibbers.keys) return
+        if(Util.isKitItem(item, Annie.UNIQUE_ID)) {
+            if(player in tibbers.keys) return
 
-                val bear = player.world.spawn(player.location, PolarBear::class.java)
-                tibbers[player] = bear
-                bear.customName(Component.text(Messages.color("&c&l${player.name}'s Tibbers")))
-                bear.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.baseValue = 100.0
-                bear.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.let {
-                    it.baseValue = it.baseValue * 1.25
-                }
+            val bear = player.world.spawn(player.location, PolarBear::class.java)
+            tibbers[player] = bear
+            bear.customName(Component.text(Messages.color("&c&l${player.name}'s Tibbers")))
+            bear.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.baseValue = 100.0
+            bear.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.let {
+                it.baseValue = it.baseValue * 1.25
+            }
 
-                if(player.level < 16) {
-                    bear.setBaby()
-                }
+            if(player.level < 16) {
+                bear.setBaby()
+            }
 
-                Bukkit.getServer().broadcast(Component.text(Messages.color("&4&l${player.name}: &7Get 'em, Tibbers!")))
+            Bukkit.getServer().broadcast(Component.text(Messages.color("&4&l${player.name}: &7Get 'em, Tibbers!")))
 
-                object : BukkitRunnable() {
-                    override fun run() {
-                        if(bear.isValid) {
-                            if(bear in targets) {
-                                val target = targets[bear]!!
-                                if(target.isValid) {
-                                    bear.target =  targets[bear]
-                                } else {
-                                    targets.remove(bear)
-                                }
+            object : BukkitRunnable() {
+                override fun run() {
+                    if(bear.isValid) {
+                        if(bear in targets) {
+                            val target = targets[bear]!!
+                            if(target.isValid) {
+                                bear.target =  targets[bear]
                             } else {
-                                val distance = Util.calculateDistance(bear.location, player.location)
-                                if(distance >= 20) {
-                                    bear.teleport(player.location)
-                                }
-
-                                bear.pathfinder.moveTo(player)
+                                targets.remove(bear)
                             }
                         } else {
-                            this.cancel()
-                        }
-                    }
-                }.runTaskTimer(plugin, 0L, 20L)
+                            val distance = Util.calculateDistance(bear.location, player.location)
+                            if(distance >= 20) {
+                                bear.teleport(player.location)
+                            }
 
-                Bukkit.getScheduler().runTaskLater(plugin, Runnable {
-                    clearTibbers(player)
-                }, 6000)
-            }
+                            bear.pathfinder.moveTo(player)
+                        }
+                    } else {
+                        this.cancel()
+                    }
+                }
+            }.runTaskTimer(plugin, 0L, 20L)
+
+            Bukkit.getScheduler().runTaskLater(plugin, Runnable {
+                clearTibbers(player)
+            }, 6000)
         }
     }
 

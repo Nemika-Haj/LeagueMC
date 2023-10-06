@@ -1,6 +1,7 @@
 package dev.bytestobits.leaguemc
 
 import org.bukkit.Location
+import org.bukkit.inventory.ItemStack
 import kotlin.math.sqrt
 
 object Util {
@@ -11,6 +12,12 @@ object Util {
         val dz = loc2.z - loc1.z
 
         return sqrt(dx*dx + dy*dy + dz*dz)
+    }
+
+    fun isKitItem(item: ItemStack?, id: Int): Boolean {
+        if(item == null) return false
+
+        return item.hasItemMeta() && item.itemMeta.hasCustomModelData() && item.itemMeta.customModelData == id
     }
 
 }

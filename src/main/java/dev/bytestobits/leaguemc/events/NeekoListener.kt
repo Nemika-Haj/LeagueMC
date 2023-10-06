@@ -1,6 +1,7 @@
 package dev.bytestobits.leaguemc.events
 
 import dev.bytestobits.leaguemc.Kits.Neeko
+import dev.bytestobits.leaguemc.Util
 import org.bukkit.Material
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -14,7 +15,7 @@ class NeekoListener: Listener {
         val player = event.player
         val item = player.inventory.itemInMainHand
 
-        if(item.hasItemMeta() && item.itemMeta.hasCustomModelData() && item.itemMeta.customModelData == Neeko.uniqueId && item.type == Material.SLIME_BALL) {
+        if(Util.isKitItem(item, Neeko.UNIQUE_ID)) {
              player.location.getNearbyEntities(10.0, 10.0, 10.0).forEach { if(it != player) it.velocity = Vector(0.0, 2.0, 0.0) }
         }
     }

@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 
 object Neeko {
-    const val uniqueId = 3000
+    const val UNIQUE_ID = 3000
 
     fun kit(player: Player) {
         val rSlime = ItemStack(Material.SLIME_BALL)
@@ -21,7 +21,7 @@ object Neeko {
         meta.lore(mutableListOf(
             Component.text(Messages.color("&7Knock everyone up within a 10 block radius."))
         ))
-        meta.setCustomModelData(uniqueId)
+        meta.setCustomModelData(UNIQUE_ID)
 
         rSlime.itemMeta = meta
 

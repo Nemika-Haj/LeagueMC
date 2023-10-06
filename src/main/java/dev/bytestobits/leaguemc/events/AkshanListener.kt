@@ -12,8 +12,6 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.PlayerInteractEvent
-import org.bukkit.event.player.PlayerJoinEvent
-import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.scheduler.BukkitRunnable
 
@@ -37,7 +35,7 @@ class AkshanListener(private val plugin: LeagueMC): Listener {
         val player = event.player
         val item = player.inventory.itemInMainHand
 
-        if(item.hasItemMeta() && item.itemMeta.hasCustomModelData() && item.itemMeta.customModelData == Akshan.uniqueId && item.type == Material.NETHER_STAR) {
+        if(Util.isKitItem(item, Akshan.UNIQUE_ID)) {
             event.isCancelled = true
             if(invisiblePlayers.contains(player)) {
                 invisiblePlayers.remove(player)

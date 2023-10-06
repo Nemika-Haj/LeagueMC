@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 
 object Akshan {
-    const val uniqueId = 4000
+    const val UNIQUE_ID = 4000
 
     fun kit(player: Player) {
         val wStar = ItemStack(Material.NETHER_STAR)
@@ -21,7 +21,7 @@ object Akshan {
         ))
         meta.addEnchant(Enchantment.LUCK, 1, true)
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
-        meta.setCustomModelData(uniqueId)
+        meta.setCustomModelData(UNIQUE_ID)
 
         wStar.itemMeta = meta
 
