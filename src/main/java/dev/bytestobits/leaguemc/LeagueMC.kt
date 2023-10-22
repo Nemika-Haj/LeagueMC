@@ -14,6 +14,8 @@ class LeagueMC : JavaPlugin() {
         Bukkit.getPluginManager().registerEvents(NeekoListener(), this)
         Bukkit.getPluginManager().registerEvents(AkshanListener(this), this)
         Bukkit.getPluginManager().registerEvents(GangplankListener(), this)
+        Bukkit.getPluginManager().registerEvents(GalioListener(), this)
+        Bukkit.getPluginManager().registerEvents(BriarListener(this), this)
     }
 
     override fun onDisable() {

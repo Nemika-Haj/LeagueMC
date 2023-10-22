@@ -22,6 +22,8 @@ class LeagueKit: CommandExecutor {
                     "neeko" -> Neeko.kit(sender)
                     "akshan" -> Akshan.kit(sender)
                     "gangplank" -> Gangplank.kit(sender)
+                    "galio" -> Galio.kit(sender)
+                    "briar" -> Briar.kit(sender)
                     else -> {
                         sender.sendMessage(Messages.color("&cKit &e$kit &cnot found."))
                     }
