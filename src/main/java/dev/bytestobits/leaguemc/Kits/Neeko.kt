@@ -12,9 +12,10 @@ object Neeko {
     const val UNIQUE_ID = 3000
 
     fun kit(player: Player) {
+        val pNametag = ItemStack(Material.NAME_TAG)
         val rSlime = ItemStack(Material.SLIME_BALL)
 
-        val meta = rSlime.itemMeta
+        var meta = rSlime.itemMeta
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
         meta.addEnchant(Enchantment.LUCK, 1, true)
         meta.displayName(Component.text(Messages.color("&d&l[R] Pop Blossom")))
@@ -25,6 +26,18 @@ object Neeko {
 
         rSlime.itemMeta = meta
 
+        meta = pNametag.itemMeta
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
+        meta.addEnchant(Enchantment.LUCK, 1, true)
+        meta.displayName(Component.text(Messages.color("&d&l[P] Inherent Glamour")))
+        meta.lore(mutableListOf(
+                Component.text(Messages.color("&7Select a player to transform into."))
+        ))
+        meta.setCustomModelData(UNIQUE_ID)
+
+        pNametag.itemMeta = meta
+
+        player.inventory.addItem(pNametag)
         player.inventory.addItem(rSlime)
     }
 

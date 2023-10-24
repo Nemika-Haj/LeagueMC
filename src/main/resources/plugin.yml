@@ -2,6 +2,7 @@ name: LeagueMC
 version: '${project.version}'
 main: dev.bytestobits.leaguemc.LeagueMC
 api-version: 1.20
+softdepend: [ "SkinsRestorer" ]
 commands:
   leaguekit:
     usage: /<command> [kit]
